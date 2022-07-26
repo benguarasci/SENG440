@@ -4,24 +4,24 @@
 #include "main.h"
 #include <time.h>
 
+// struct header_struct {
+//   char chunk_id[4];
+//   union int_data chunk_size;
+//   char format[4];
+//   char subchunk1_id[4];
+//   union int_data subchunk1_size;
+//   union short_data audio_format;
+//   union short_data num_channels;
+//   union int_data sample_rate;
+//   union int_data byte_rate;
+//   union short_data block_align;
+//   union short_data bits_per_sample;
+//   char subchunk2_id[4];
+//   union int_data subchunk2_size;
+// };
+
 FILE *fp;
 unsigned char buffer[4];
-
-struct header_struct {
-  char chunk_id[4];
-  union int_data chunk_size;
-  char format[4];
-  char subchunk1_id[4];
-  union int_data subchunk1_size;
-  union short_data audio_format;
-  union short_data num_channels;
-  union int_data sample_rate;
-  union int_data byte_rate;
-  union short_data block_align;
-  union short_data bits_per_sample;
-  char subchunk2_id[4];
-  union int_data subchunk2_size;
-};
 
 struct WAVE wave;
 struct WAVE_COMPRESSED waveCompressed;
@@ -98,7 +98,7 @@ void readWaveFileHeaders() {
     fread(buffer,                                   sizeof(__uint16_t), 1, fp);
     wave.waveFormatChunk.wFormatTag = buffer[0] | buffer[1] << 8;
 
-    fread(buffer,                                   sizeof(__uint16_t), 1, fp);
+    fread(buffer,                                sizeof(__uint16_t), 1, fp);
     wave.waveFormatChunk.wChannels = (buffer[0]) | (buffer[1] << 8);
 
     fread(buffer,                                   sizeof(buffer), 1, fp);
