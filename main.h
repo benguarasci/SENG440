@@ -15,10 +15,10 @@ struct HEADER_CHUNK {
 
 
 struct DATA_CHUNK {
-    unsigned subchunk2_id[4]   //"data"
-    __uint32_t subchunk2_size
-    short *sampleData
-}
+    unsigned subchunk2_id[4];  //"data"
+    __uint32_t subchunk2_size;
+    short *sampleData;
+};
 
 
 
