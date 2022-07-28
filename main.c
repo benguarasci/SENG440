@@ -46,60 +46,60 @@ void readSample(){
     printf("HEADERS:\n");
     printf("read chunk_id -- 4bytes\n");
     fread(sample.header.chunk_id, sizeof(sample.header.chunk_id), 1, input);
-    printf("\n(01-04): chunk_id\t\t%u", sample.header.chunk_id);
+    printf("\n(01-04): chunk_id\t\t%u\n", sample.header.chunk_id);
 
     printf("read chunk_size -- 4bytes\n");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     sample.header.chunk_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
-    printf("\n(05-08): chunk_size\t\t%u", sample.header.chunk_size);
+    printf("\n(05-08): chunk_size\t\t%u\n", sample.header.chunk_size);
 
     printf("read chunk_type -- 4bytes\n");
     fread(sample.header.chunk_type, sizeof(sample.header.chunk_type), 1, input); //"WAV"
-    printf("\n(09-12): chunk_type\t\t%u", sample.header.chunk_type);
+    printf("\n(09-12): chunk_type\t\t%u\n", sample.header.chunk_type);
 
     printf("read format -- 4bytes\n");
     fread(sample.header.format, sizeof(sample.header.format), 1, input); //"fmt"
-    printf("\n(13-16): format\t\t%u", sample.header.format);
+    printf("\n(13-16): format\t\t%u\n", sample.header.format);
 
     printf("read subchunk1_size -- 4bytes\n");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     sample.header.subchunk1_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
-    printf("\n(17-20): subchunk1_size\t\t%u", sample.header.subchunk1_size);
+    printf("\n(17-20): subchunk1_size\t\t%u\n", sample.header.subchunk1_size);
 
     printf("read audio_format -- 2bytes\n");
     fread(littleBuffer, sizeof(littleBuffer), 1, input);
     sample.header.audio_format = ((littleBuffer[0]) | (littleBuffer[1] << 8)); // converting to big endian
-    printf("\n(21-22): audio_format\t\t%u", sample.header.audio_format);
+    printf("\n(21-22): audio_format\t\t%u\n", sample.header.audio_format);
 
     printf("read num_channels -- 2bytes\n");
     fread(littleBuffer, sizeof(littleBuffer), 1, input);
     sample.header.num_channels = ((littleBuffer[0]) | (littleBuffer[1] << 8)); // converting to big endian
-    printf("\n(23-24): num_channels\t\t%u", sample.header.num_channels);
+    printf("\n(23-24): num_channels\t\t%u\n", sample.header.num_channels);
 
     printf("read sample_rate -- 4bytes\n");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     sample.header.sample_rate = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
-    printf("\n(25-28): sample_rate\t%u", sample.header.sample_rate);
+    printf("\n(25-28): sample_rate\t%u\n", sample.header.sample_rate);
 
     printf("read byte_rate -- 4bytes\n");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     sample.header.byte_rate = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
-    printf("\n(29-32): byte_rate\t%u", sample.header.byte_rate);
+    printf("\n(29-32): byte_rate\t%u\n", sample.header.byte_rate);
 
     printf("read block_align -- 2bytes\n");
     fread(littleBuffer, sizeof(littleBuffer), 1, input);
     sample.header.block_align = ((littleBuffer[0]) | (littleBuffer[1] << 8)); // converting to big endian
-    printf("\n(33-34): block_align\t\t%u", sample.header.block_align);
+    printf("\n(33-34): block_align\t\t%u\n", sample.header.block_align);
 
     printf("read bits_per_sample -- 2bytes\n");
     fread(littleBuffer, sizeof(littleBuffer), 1, input);
     sample.header.bits_per_sample = ((littleBuffer[0]) | (littleBuffer[1] << 8)); //converting to big endian
-    printf("\n(35-36): bits_per_sample\t%u", sample.header.bits_per_sample);
+    printf("\n(35-36): bits_per_sample\t%u\n", sample.header.bits_per_sample);
 
     printf("DATA INFO:\n");
     printf("read subchunk2_id -- 4bytes\n");
     fread(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, input);
-    printf("\n(37-40): subchunk2_id\t\t%u", sample.rawData.subchunk2_id);
+    printf("\n(37-40): subchunk2_id\t\t%u\n", sample.rawData.subchunk2_id);
 
     printf("read subchunk2_size -- 4bytes\n");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
