@@ -150,9 +150,9 @@ void printHeader() {
     printf("\n(21-22): audio_format\t\t%u", sample.header.audio_format);
     printf("\n(23-24): num_channels\t\t%u", sample.header.num_channels);
     printf("\n(25-28): sample_rate\t%u", sample.header.sample_rate);
-    printf("\n(29-32): dwAvgBytesPerSec\t%u", sample.header.byte_rate);
-    printf("\n(33-34): wBlockAlign\t\t%u", sample.header.block_align);
-    printf("\n(35-36): dwBitsPerSample\t%u", sample.header.bits_per_sample);
+    printf("\n(29-32): byte_rate\t%u", sample.header.byte_rate);
+    printf("\n(33-34): block_align\t\t%u", sample.header.block_align);
+    printf("\n(35-36): bits_per_sample\t%u", sample.header.bits_per_sample);
 
     fwrite("\n(37-40): subchunk2_id\t\t", 1, 20, stdout);
     fwrite(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, stdout);
