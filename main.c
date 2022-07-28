@@ -106,7 +106,7 @@ void readSample(){
     sample.rawData.subchunk2_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
     printf("\n(37-40): subchunk2_size\t\t%u\n", sample.rawData.subchunk2_size);
 
-    
+
     printf("DONE\n");
 
     printf("BEGIN READING SAMPLE DATA\n");
@@ -173,4 +173,4 @@ void readSample(){
 //     printf("\n(41-44): subchunk2_size\t\t%u", sample.rawData.subchunk2_size);
 
 //     printf("\n...\nDisplaying Wave Headers:\tCOMPLETE\n\n");
-}
+// }
