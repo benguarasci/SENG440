@@ -1,7 +1,20 @@
-main:
-	arm-linux-gcc -static -o main.exe main.c
-	lftp -c "open user1:q6coHjd7P@arm; mirror -P 10 -R -x '.git';"
-	(sleep 1; echo user1; sleep 1; echo q6coHjd7P; sleep 1; echo ./main.exe; sleep 5;) | telnet arm
+mu:
+	clear
+	gcc main.c -o main.o -std=c99
+	./main.o Voice001.wav
+test:
+	clear
+	gcc test.c -o test.o
+	./test.o sample.wav
+testv:
+	clear
+	gcc test.c -o test.o
+	./test.o Voice001.wav
 
 clean:
-	rm main.exe
+	rm main.o
+	rm test.o
+opt:
+	clear
+	gcc main_opt.c -o main_opt.o
+	./main_opt.o Voice001.wav
