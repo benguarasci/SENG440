@@ -4,34 +4,20 @@
 #include "main.h"
 #include <time.h>
 
-// struct header_struct {
-//   char chunk_id[4];
-//   union int_data chunk_size;
-//   char format[4];
-//   char subchunk1_id[4];
-//   union int_data subchunk1_size;
-//   union short_data audio_format;
-//   union short_data num_channels;
-//   union int_data sample_rate;
-//   union int_data byte_rate;
-//   union short_data block_align;
-//   union short_data bits_per_sample;
-//   char subchunk2_id[4];
-//   union int_data subchunk2_size;
-// };
+
 
 FILE *fp;
 unsigned char buffer[4];
 
-struct WAVE wave;
-struct WAVE_COMPRESSED waveCompressed;
+struct WAVE_FILE sample;
+struct COMPRESSED_WAVE_FILE compressedSample;
 
 unsigned long numSamples;
-unsigned int sizeOfEachSample;
+unsigned int sampleSize;
 
 time_t start, stop;
-double compressionDuration;
-double decompressionDuration;
+double compressionTime;
+double decompressionTime;
 
 
 int main (int argc, char **argv) {
