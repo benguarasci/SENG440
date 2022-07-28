@@ -1,22 +1,22 @@
 
 struct HEADER_CHUNK {
-  unsigned char chunk_id[4];  //"RIFF"
-  __uint32_t chunk_size;
-  unsigned char chunk_type[4];   //"WAV" 
-  unsigned char format[4];      //"fmt"
-  __uint32_t subchunk1_size;
-  __uint8_t audio_format;
-  __uint32_t num_channels;
-  __uint32_t sample_rate;
-  __uint32_t byte_rate;
-  __uint32_t block_align;
-  __uint32_t bits_per_sample;
+  unsigned char chunk_id[4];  //"RIFF" 4byte    
+  __uint32_t chunk_size;       //4byte
+  unsigned char chunk_type[4];   //"WAV"  4byte
+  unsigned char format[4];      //"fmt" 4byte
+  __uint32_t subchunk1_size; // 4byte
+  __uint16_t audio_format; //2byte
+  __uint16_t num_channels; //2byte
+  __uint32_t sample_rate; //4byte
+  __uint32_t byte_rate; //4byte
+  __uint16_t block_align; //2byte
+  __uint16_t bits_per_sample; //2byte
 };
 
 
 struct DATA_CHUNK {
-    unsigned subchunk2_id[4];  //"data"
-    __uint32_t subchunk2_size;
+    unsigned subchunk2_id[4];  //"data" 4byte
+    __uint32_t subchunk2_size; //4byte
     short *sampleData;
 };
 

@@ -7,7 +7,9 @@
 
 
 FILE *input;
-unsigned char buffer[4];
+unsigned char bigBuffer[4];
+unsigned char littleBuffer[2];
+
 
 struct WAVE_FILE sample;
 struct COMPRESSED_WAVE_FILE compressedSample;
@@ -38,13 +40,73 @@ int main (int argc, char **argv) {
 }
 
 
-void deconstructWave(){
-    printf("HEADERS:");
-    printf("start reading chunk_id");
+
+
+void readSample(){
+    printf("HEADERS:\n");
+    printf("read chunk_id -- 4bytes\n");
     fread(sample.header.chunk_id, sizeof(sample.header.chunk_id), 1, input);
-    // printf("read remaining bits");
-    fread(buffer, sizeof(buffer), 1, input);
-    sample.header.chunk_size = (buffer[0]) | (buffer[1] << 8) | (buffer[2])
+
+    printf("read chunk_size -- 4bytes\n");
+    fread(bigBuffer, sizeof(bigBuffer), 1, input);
+    sample.header.chunk_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
+
+    printf("read chunk_type -- 4bytes\n");
+    fread(sample.header.chunk_type, sizeof(sample.header.chunk_type), 1, input); //"WAV"
+
+    printf("read format -- 4bytes\n");
+    fread(sample.header.format, sizeof(sample.header.format), 1, input); //"fmt"
+
+    printf("read subchunk1_size -- 4bytes\n");
+    fread(bigBuffer, sizeof(bigBuffer), 1, input);
+    sample.header.subchunk1_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
+
+    printf("read audio_format -- 2bytes\n");
+    fread(littleBuffer, sizeof(littleBuffer), 1, input);
+    sample.header.audio_format = ((littleBuffer[0]) | (littleBuffer[1] << 8)); // converting to big endian
+
+    printf("read num_channels -- 2bytes\n");
+    fread(littleBuffer, sizeof(littleBuffer), 1, input);
+    sample.header.num_channels = ((littleBuffer[0]) | (littleBuffer[1] << 8)); // converting to big endian
+
+    printf("read sample_rate -- 4bytes\n");
+    fread(bigBuffer, sizeof(bigBuffer), 1, input);
+    sample.header.sample_rate = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
+
+    printf("read byte_rate -- 4bytes\n");
+    fread(bigBuffer, sizeof(bigBuffer), 1, input);
+    sample.header.byte_rate = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
+
+    printf("read block_align -- 2bytes\n");
+    fread(littleBuffer, sizeof(littleBuffer), 1, input);
+    sample.header.block_align = ((littleBuffer[0]) | (littleBuffer[1] << 8)); // converting to big endian
+
+    printf("read bits_per_sample -- 2bytes\n");
+    fread(littleBuffer, sizeof(littleBuffer), 1, input);
+    sample.header.bits_per_sample = ((littleBuffer[0]) | (littleBuffer[1] << 8)); //converting to big endian
+
+    printf("DATA:\n");
+    printf("read subchunk2_id -- 4bytes\n");
+    fread(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, input);
+
+    printf("read subchunk2_size -- 4bytes\n");
+    fread(bigBuffer, sizeof(bigBuffer), 1, input);
+    sample.rawData.subchunk2_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
 
 
 
