@@ -35,11 +35,12 @@ int main (int argc, char **argv) {
         printf("Error opening file %s", argv[1]);
     }
 
+    readSample();
+    printHeader();
+
     return 0;
 
 }
-
-
 
 
 void readSample(){
@@ -85,7 +86,7 @@ void readSample(){
     fread(littleBuffer, sizeof(littleBuffer), 1, input);
     sample.header.bits_per_sample = ((littleBuffer[0]) | (littleBuffer[1] << 8)); //converting to big endian
 
-    printf("DATA:\n");
+    printf("DATA INFO:\n");
     printf("read subchunk2_id -- 4bytes\n");
     fread(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, input);
 
@@ -93,21 +94,70 @@ void readSample(){
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     sample.rawData.subchunk2_size = ((bigBuffer[0]) | (bigBuffer[1] << 8) | (bigBuffer[2] << 16) | (bigBuffer[3] << 24)); // converting to big endian
 
+    printf("DONE\n");
 
+    printf("BEGIN READING SAMPLE DATA\n");
 
+    printf("Ensure audio format is PCM\n");
 
+    if(sample.header.audio_format == 1){
 
+        printf("Calculate number of samples and sample size for calloc\n");
 
- 
+        //NumSamples = chunk_size / (num_channels * bits_per_sample / 8) (converte to bytes)
+        numSamples = (sample.header.chunk_size / (sample.header.num_channels*(sample.header.bits_per_sample/8)));
+        prinf("numSamples: %lu \n", numSamples);
 
+        sampleSize = (sample.header.num_channels * sample.header.bits_per_sample)/8; //should be under 2 bytes
 
+        prinf("sampleSize: %lu \n", sampleSize);
 
+        printf("allocate memory in data chunk to store numsamples*samplesize");
 
+        sample.rawData.sampleData = calloc(numSamples, sampleSize);
 
+        printf("begin reading samples");
 
+        int n = 0;
+        while(n < numSamples){
+            fread(littleBuffer, sampleSize, 1, input);
+            sample.rawData.sampleData[n] = ((littleBuffer[0]) | (littleBuffer[1] << 8));
+            n++;
+        }
 
+        printf("DONE!");
+    } else{
+        printf("Invalid Input");
+    }
 
+}
 
+void printHeader() {
+    printf("Display Wave Headers:\t\t...\n");
 
+    fwrite("(01-04): chunk_id\t\t", 1, 19, stdout);
+    fwrite(sample.header.chunk_id, sizeof(sample.header.chunk_id), 1, stdout);
 
+    printf("\n(05-08): chunk_size\t\t%u", sample.header.chunk_size);
+
+    fwrite("\n(09-12): chunk_type\t\t", 1, 21, stdout);
+    fwrite(sample.header.chunk_type, sizeof(sample.header.chunk_type), 1, stdout);
+
+    fwrite("\n(13-16): format\t\t", 1, 20, stdout);
+    fwrite(sample.header.format, sizeof(sample.header.format), 1, stdout);
+    
+    printf("\n(17-20): subchunk1_size\t\t%u", sample.header.subchunk1_size);
+    printf("\n(21-22): audio_format\t\t%u", sample.header.audio_format);
+    printf("\n(23-24): num_channels\t\t%u", sample.header.num_channels);
+    printf("\n(25-28): sample_rate\t%u", sample.header.sample_rate);
+    printf("\n(29-32): dwAvgBytesPerSec\t%u", sample.header.byte_rate);
+    printf("\n(33-34): wBlockAlign\t\t%u", sample.header.block_align);
+    printf("\n(35-36): dwBitsPerSample\t%u", sample.header.bits_per_sample);
+
+    fwrite("\n(37-40): subchunk2_id\t\t", 1, 20, stdout);
+    fwrite(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, stdout);
+
+    printf("\n(41-44): subchunk2_size\t\t%u", sample.rawData.subchunk2_size);
+
+    printf("\n...\nDisplaying Wave Headers:\tCOMPLETE\n\n");
 }
