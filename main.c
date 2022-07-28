@@ -106,11 +106,11 @@ void readSample(){
 
         //NumSamples = chunk_size / (num_channels * bits_per_sample / 8) (converte to bytes)
         numSamples = (sample.header.chunk_size / (sample.header.num_channels*(sample.header.bits_per_sample/8)));
-        prinf("numSamples: %lu \n", numSamples);
+        printf("numSamples: %lu \n", numSamples);
 
         sampleSize = (sample.header.num_channels * sample.header.bits_per_sample)/8; //should be under 2 bytes
 
-        prinf("sampleSize: %lu \n", sampleSize);
+        printf("sampleSize: %lu \n", sampleSize);
 
         printf("allocate memory in data chunk to store numsamples*samplesize");
 
