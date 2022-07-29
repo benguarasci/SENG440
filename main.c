@@ -171,7 +171,7 @@ void readSample(){
 
 
 void compress_data(){
-	printf("Allocate data for compressed samples");
+	printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(__uint8_t)); //will only be 2 bytes after mu compression
 	
 	__uint8_t codeword;
@@ -191,8 +191,8 @@ void compress_data(){
             sample_sign = 0;
             magnitude = -a_sample + 33;
         }
-        printf("linear to mu\n\n\n");
-        LinearToMuLawSample(a_sample);
+        // printf("linear to mu\n\n\n");
+        // LinearToMuLawSample(a_sample);
         printf("Mulaw\n\n\n");
         mu_law(sample_sign, magnitude);
 
