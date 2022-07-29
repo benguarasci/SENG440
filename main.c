@@ -118,7 +118,7 @@ void readSample(){
     }
     
     printf("read subchunk2_id -- 4bytes\n");
-    strcpy(sample.rawData. subchunk2_id, bigBuffer);
+    strcpy(sample.rawData.subchunk2_id, bigBuffer);
     //printf("\n(37-40): subchunk2_id\t\t%u\n", sample.rawData.subchunk2_id);
 
     printf("read subchunk2_size -- 4bytes\n");
