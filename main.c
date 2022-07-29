@@ -324,7 +324,7 @@ int chord, step, codeword;
     else if (magnitude & (1 << 5)) {
         chord = 0x0;
         step = (magnitude >> 1) & 0xF;
-        printf("if 8\n");
+        // printf("if 8\n");
     } 
     else {
         chord = 0x0;
