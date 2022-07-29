@@ -176,7 +176,7 @@ void printHeader() {
     fwrite("\n(09-12): chunk_type\t\t", 1, 21, stdout);
     fwrite(sample.header.chunk_type, sizeof(sample.header.chunk_type), 1, stdout);
 
-    fwrite("\n(13-16): format\t\t", 1, 20, stdout);
+    fwrite("\n(13-16): format\t\t", 1, 25, stdout);
     fwrite(sample.header.format, sizeof(sample.header.format), 1, stdout);
     
     printf("\n(17-20): subchunk1_size\t\t%u", sample.header.subchunk1_size);
@@ -187,7 +187,7 @@ void printHeader() {
     printf("\n(33-34): block_align\t\t%u", sample.header.block_align);
     printf("\n(35-36): bits_per_sample\t%u", sample.header.bits_per_sample);
 
-    fwrite("\n(37-40): subchunk2_id\t\t", 1, 20, stdout);
+    fwrite("\n(37-40): subchunk2_id\t\t", 1, 25, stdout);
     fwrite(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, stdout);
 
     printf("\n(41-44): subchunk2_size\t\t%u", sample.rawData.subchunk2_size);
