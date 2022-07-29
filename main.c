@@ -101,7 +101,7 @@ void readSample(){
 
     printf("DATA INFO:\n");
 
-
+    printf("Parsing to 'data' marker");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     int dataMarker = strcmp(bigBuffer, "data");
     int endInput = sample.header.chunk_size - 40;
@@ -112,11 +112,12 @@ void readSample(){
             if(!dataMarker){
                 break;
             }
-            
+            fseek(input, -3, SEEK_CUR); //SEEK_CUR – It moves file pointer position to given location.
         }
     }
+    
     printf("read subchunk2_id -- 4bytes\n");
-    fread(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, input);
+    strcopy(sample.rawData. subchunk2_id, bigBuffer);
     printf("\n(37-40): subchunk2_id\t\t%u\n", sample.rawData.subchunk2_id);
 
     printf("read subchunk2_size -- 4bytes\n");
