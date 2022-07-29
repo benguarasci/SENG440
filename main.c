@@ -165,6 +165,15 @@ void readSample(){
 
 }
 
+
+void compress_data(){
+	printf("Allocate data for compressed samples");
+	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(uint8_t)); //will only be 2 bytes after mu compression
+	
+	int  
+
+}
+
 void printHeader() {
     printf("Display Wave Headers:\t\t...\n");
 
