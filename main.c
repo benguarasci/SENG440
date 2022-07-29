@@ -102,7 +102,7 @@ void readSample(){
 
     printf("DATA INFO:\n");
 
-    printf("Parsing to 'data' marker");
+    printf("Parsing to 'data' marker\n");
     fread(bigBuffer, sizeof(bigBuffer), 1, input);
     int dataMarker = strcmp(bigBuffer, "data");
     int endInput = sample.header.chunk_size - 40;
@@ -145,11 +145,11 @@ void readSample(){
 
         printf("sampleSize: %lu \n", sampleSize);
 
-        printf("allocate memory in data chunk to store numsamples*samplesize");
+        printf("allocate memory in data chunk to store numsamples*samplesize\n");
 
         sample.rawData.sampleData = calloc(numSamples, sampleSize);
 
-        printf("begin reading samples");
+        printf("begin reading samples\n");
 
         int n = 0;
         while(n < numSamples){
@@ -158,9 +158,9 @@ void readSample(){
             n++;
         }
 
-        printf("DONE!");
+        printf("DONE!\n");
     } else{
-        printf("Invalid Input");
+        printf("Invalid Input\n");
     }
 
 }
