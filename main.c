@@ -334,7 +334,7 @@ int chord, step, codeword;
     codeword = (sign << 7) | (chord << 4) | step;
     printf("final print\n");
 
-    printf(codeword);
+    // printf(codeword);
     return (__uint8_t) codeword;
 }
 
