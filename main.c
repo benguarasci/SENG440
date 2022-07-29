@@ -96,7 +96,25 @@ void readSample(){
     sample.header.bits_per_sample = ((littleBuffer[0]) | (littleBuffer[1] << 8)); //converting to big endian
     printf("\n(35-36): bits_per_sample\t%u\n", sample.header.bits_per_sample);
 
+
+
+
     printf("DATA INFO:\n");
+
+
+    fread(bigBuffer, sizeof(bigBuffer), 1, input);
+    int dataMarker = strcmp(bigBuffer, "data");
+    int endInput = sample.header.chunk_size - 40;
+    if(dataMarker){
+        while (endInput >= 0){
+            fread(bigBuffer, sizeof(bigBuffer), 1, input);
+            dataMarker = strcmp(bigBuffer, "data");
+            if(!dataMarker){
+                break;
+            }
+            
+        }
+    }
     printf("read subchunk2_id -- 4bytes\n");
     fread(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, input);
     printf("\n(37-40): subchunk2_id\t\t%u\n", sample.rawData.subchunk2_id);
