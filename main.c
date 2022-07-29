@@ -177,15 +177,18 @@ void compress_data(){
         printf("Could not allocate enough memory to store compressed data samples\n");
         return;
     }
-	
+	printf("before init\n");
 	__uint8_t codeword;
     int magnitude;
     short a_sample;
     int sample_sign;
+    printf("after init\n");
 
     int n = 0;
     while(n < numSamples){
+        printf("start while\n");
         a_sample = (sample.rawData.sampleData[n] >> 2);
+        printf("init a_sample\n");
         if (a_sample >= 0){
             //positive
             sample_sign = 1;
@@ -281,44 +284,55 @@ unsigned char LinearToMuLawSample(short sample)
 
 
 __uint8_t mu_law(int sign, int magnitude){
+    printf("start mulaw\n");
 int chord, step, codeword;
     if (magnitude & (1 << 12)) {
         chord = 0x7;
         step = (magnitude >> 8) & 0xF;
+        printf("if 1\n");
     } 
     else if (magnitude & (1 << 11)) {
         chord = 0x6;
         step = (magnitude >> 7) & 0xF;
+        printf("if 2\n");
     } 
     else if (magnitude & (1 << 10)) {
         chord = 0x5;
         step = (magnitude >> 6) & 0xF;
+        printf("if 3\n");
     } 
     else if (magnitude & (1 << 9)) {
         chord = 0x4;
         step = (magnitude >> 5) & 0xF;
+        printf("if 4\n");
     } 
     else if (magnitude & (1 << 8)) {
         chord = 0x3;
         step = (magnitude >> 4) & 0xF;
+        printf("if 5\n");
     } 
     else if (magnitude & (1 << 7)) {
         chord = 0x2;
         step = (magnitude >> 3) & 0xF;
+        printf("if 6\n");
     } 
     else if (magnitude & (1 << 6)) {
         chord = 0x1;
         step = (magnitude >> 2) & 0xF;
+        printf("if 7\n");
     } 
     else if (magnitude & (1 << 5)) {
         chord = 0x0;
         step = (magnitude >> 1) & 0xF;
+        printf("if 8\n");
     } 
     else {
         chord = 0x0;
         step = magnitude;
+        printf("else\n");
     }
     codeword = (sign << 7) | (chord << 4) | step;
+    printf("final print\n");
 
     printf(codeword);
     return (__uint8_t) codeword;
