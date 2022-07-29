@@ -170,9 +170,153 @@ void compress_data(){
 	printf("Allocate data for compressed samples");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(uint8_t)); //will only be 2 bytes after mu compression
 	
-	int  
+	uint8_t codeword;
+    int magnitude;
+    int a_sample;
+    int sample_sign;
+
+    int n = 0;
+    while(n < numSamples){
+        a_sample = (sample.rawData.sampleData[n] >> 2);
+        if (a_sample >= 0){
+            //positive
+            sample_sign = 1;
+            magnitude = a_sample + 33;
+        }else{
+            //negative
+            sample_sign = 0;
+            magnitude = -a_sample + 33;
+        }
+        printf("linear to mu");
+        LinearToMuLawSample(a_sample);
+        printf("Mulaw");
+        mu_law(sample_sign, magnitude);
+
+    }
+    
+    
 
 }
+
+
+const int cBias = 0x84;
+
+const int cClip = 32635;
+
+static char MuLawCompressTable[256] =
+
+{
+
+     0,0,1,1,2,2,2,2,3,3,3,3,3,3,3,3,
+
+     4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+
+     5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+
+     5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+
+     6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+
+     6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+
+     6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+
+     6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+
+     7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+
+};
+
+unsigned char LinearToMuLawSample(short sample)
+
+{
+
+     int sign = (sample >> 8) & 0x80;
+
+     if (sign)
+
+          sample = (short)-sample;
+
+     if (sample > cClip)
+
+          sample = cClip;
+
+     sample = (short)(sample + cBias);
+
+     int exponent = (int)MuLawCompressTable[(sample>>7) & 0xFF];
+
+     int mantissa = (sample >> (exponent+3)) & 0x0F;
+
+     int compressedByte = ~ (sign | (exponent << 4) | mantissa);
+
+     printf(compressedByte);
+
+     return (unsigned char)compressedByte;
+
+}
+
+
+
+
+uint8_t mu_law(int sign, int magnitude){
+int chord, step, codeword;
+    if (magnitude & (1 << 12)) {
+        chord = 0x7;
+        step = (magnitude >> 8) & 0xF;
+    } 
+    else if (magnitude & (1 << 11)) {
+        chord = 0x6;
+        step = (magnitude >> 7) & 0xF;
+    } 
+    else if (magnitude & (1 << 10)) {
+        chord = 0x5;
+        step = (magnitude >> 6) & 0xF;
+    } 
+    else if (magnitude & (1 << 9)) {
+        chord = 0x4;
+        step = (magnitude >> 5) & 0xF;
+    } 
+    else if (magnitude & (1 << 8)) {
+        chord = 0x3;
+        step = (magnitude >> 4) & 0xF;
+    } 
+    else if (magnitude & (1 << 7)) {
+        chord = 0x2;
+        step = (magnitude >> 3) & 0xF;
+    } 
+    else if (magnitude & (1 << 6)) {
+        chord = 0x1;
+        step = (magnitude >> 2) & 0xF;
+    } 
+    else if (magnitude & (1 << 5)) {
+        chord = 0x0;
+        step = (magnitude >> 1) & 0xF;
+    } 
+    else {
+        chord = 0x0;
+        step = magnitude;
+    }
+    codeword = (sign << 7) | (chord << 4) | step;
+
+    printf(codeword);
+    return (__uint8_t) codeword;
+}
+
+
 
 void printHeader() {
     printf("Display Wave Headers:\t\t...\n");
