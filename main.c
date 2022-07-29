@@ -168,11 +168,11 @@ void readSample(){
 
 void compress_data(){
 	printf("Allocate data for compressed samples");
-	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(uint8_t)); //will only be 2 bytes after mu compression
+	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(__uint8_t)); //will only be 2 bytes after mu compression
 	
-	uint8_t codeword;
+	__uint8_t codeword;
     int magnitude;
-    int a_sample;
+    short a_sample;
     int sample_sign;
 
     int n = 0;
