@@ -272,7 +272,7 @@ unsigned char LinearToMuLawSample(short sample)
 
 
 
-uint8_t mu_law(int sign, int magnitude){
+__uint8_t mu_law(int sign, int magnitude){
 int chord, step, codeword;
     if (magnitude & (1 << 12)) {
         chord = 0x7;
