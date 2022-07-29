@@ -173,6 +173,10 @@ void readSample(){
 void compress_data(){
 	printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
+    if (compressedSample.compressedData.sampleData == NULL) {
+        printf("Could not allocate enough memory to store compressed data samples\n");
+        return;
+    }
 	
 	__uint8_t codeword;
     int magnitude;
