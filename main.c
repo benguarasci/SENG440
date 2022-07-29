@@ -38,6 +38,10 @@ int main (int argc, char **argv) {
     readSample();
     printHeader();
 
+    printf("testing data compression methods\n\n\n\n\n");
+
+    compress_data();
+
     return 0;
 
 }
@@ -187,9 +191,9 @@ void compress_data(){
             sample_sign = 0;
             magnitude = -a_sample + 33;
         }
-        printf("linear to mu");
+        printf("linear to mu\n\n\n");
         LinearToMuLawSample(a_sample);
-        printf("Mulaw");
+        printf("Mulaw\n\n\n");
         mu_law(sample_sign, magnitude);
 
     }
