@@ -186,9 +186,9 @@ void compress_data(){
 
     int n = 0;
     while(n < numSamples){
-        printf("start while\n");
+        // printf("start while\n");
         a_sample = (sample.rawData.sampleData[n] >> 2);
-        printf("init a_sample\n");
+        // printf("init a_sample\n");
         if (a_sample >= 0){
             //positive
             sample_sign = 1;
@@ -200,7 +200,7 @@ void compress_data(){
         }
         // printf("linear to mu\n\n\n");
         // LinearToMuLawSample(a_sample);
-        printf("Mulaw\n\n\n");
+        // printf("Mulaw\n\n\n");
         mu_law(sample_sign, magnitude);
 
     }
@@ -284,7 +284,7 @@ unsigned char LinearToMuLawSample(short sample)
 
 
 __uint8_t mu_law(int sign, int magnitude){
-    printf("start mulaw\n");
+    // printf("start mulaw\n");
 int chord, step, codeword;
     if (magnitude & (1 << 12)) {
         chord = 0x7;
@@ -332,7 +332,7 @@ int chord, step, codeword;
         printf("else\n");
     }
     codeword = (sign << 7) | (chord << 4) | step;
-    printf("final print\n");
+    // printf("final print\n");
 
     // printf(codeword);
     return (__uint8_t) codeword;
