@@ -178,7 +178,6 @@ void compress_data(){
         return;
     }
 	printf("before init\n");
-	__uint8_t codeword;
     int magnitude;
     short a_sample;
     int sample_sign;
@@ -200,15 +199,10 @@ void compress_data(){
         }
         // printf("linear to mu\n\n\n");
         // LinearToMuLawSample(a_sample);
-        printf("Mulaw\n\n\n");
-        mu_law(sample_sign, magnitude);
-
+        // printf("Mulaw\n\n\n");
+        compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, magnitude);
         n++;
-
     }
-    
-    
-
 }
 
 
@@ -291,37 +285,37 @@ int chord, step, codeword;
     if (magnitude & (1 << 12)) {
         chord = 0x7;
         step = (magnitude >> 8) & 0xF;
-        printf("if 1\n");
+        // printf("if 1\n");
     } 
     else if (magnitude & (1 << 11)) {
         chord = 0x6;
         step = (magnitude >> 7) & 0xF;
-        printf("if 2\n");
+        // printf("if 2\n");
     } 
     else if (magnitude & (1 << 10)) {
         chord = 0x5;
         step = (magnitude >> 6) & 0xF;
-        printf("if 3\n");
+        // printf("if 3\n");
     } 
     else if (magnitude & (1 << 9)) {
         chord = 0x4;
         step = (magnitude >> 5) & 0xF;
-        printf("if 4\n");
+        // printf("if 4\n");
     } 
     else if (magnitude & (1 << 8)) {
         chord = 0x3;
         step = (magnitude >> 4) & 0xF;
-        printf("if 5\n");
+        // printf("if 5\n");
     } 
     else if (magnitude & (1 << 7)) {
         chord = 0x2;
         step = (magnitude >> 3) & 0xF;
-        printf("if 6\n");
+        // printf("if 6\n");
     } 
     else if (magnitude & (1 << 6)) {
         chord = 0x1;
         step = (magnitude >> 2) & 0xF;
-        printf("if 7\n");
+        // printf("if 7\n");
     } 
     else if (magnitude & (1 << 5)) {
         chord = 0x0;
@@ -331,7 +325,7 @@ int chord, step, codeword;
     else {
         chord = 0x0;
         step = magnitude;
-        printf("else\n");
+        // printf("else\n");
     }
     codeword = (sign << 7) | (chord << 4) | step;
     // printf("final print\n");
