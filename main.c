@@ -216,12 +216,13 @@ decompress_data(){
     short sample_sign;
 
     while(n < numSamples){
-        compressedSample = ~compressedSample.compressedData.sampleData[n];
+        compressedSample = compressedSample.compressedData.sampleData[n];
+        compressedSample = ~compressedSample;
         sample_sign = decode_sign(compressedSample);
         sample_magnitude = decode_magnitude(compressedSample) - 33;
         short rebuilt_sample = rebuild_sample(sample_sign, sample_magnitude) << 2;
         sample.rawData.sampleData[n] = rebuilt_sample;
-        n++
+        n++;
     }
 
     printf("Done Decompression");
