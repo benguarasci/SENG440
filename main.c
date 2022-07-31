@@ -203,6 +203,8 @@ void compress_data(){
         // printf("Mulaw\n\n\n");
         mu_law(sample_sign, magnitude);
 
+        n++;
+
     }
     
     
