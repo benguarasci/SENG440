@@ -178,7 +178,7 @@ void compress_data(){
         return;
     }
 	printf("before init\n");
-    int magnitude;
+    int sample_magnitude;
     short a_sample;
     int sample_sign;
     printf("after init\n");
@@ -191,18 +191,40 @@ void compress_data(){
         if (a_sample >= 0){
             //positive
             sample_sign = 1;
-            magnitude = a_sample + 33;
+            sample_magnitude = a_sample + 33;
         }else{
             //negative
             sample_sign = 0;
-            magnitude = -a_sample + 33;
+            sample_magnitude = -a_sample + 33;
         }
         // printf("linear to mu\n\n\n");
         // LinearToMuLawSample(a_sample);
         // printf("Mulaw\n\n\n");
-        compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, magnitude);
+        compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, sample_magnitude);
         n++;
     }
+}
+
+
+//invert above logic
+
+decompress_data(){
+    int n = 0;
+    __uint8_t compressedSample;
+    unsigned short sample_magnitude;
+    short sample_sign;
+
+    while(n < numSamples){
+        compressedSample = ~compressedSample.compressedData.sampleData[n];
+        sample_sign = decode_sign(compressedSample);
+        sample_magnitude = decode_magnitude(compressedSample) - 33;
+        short rebuilt_sample = rebuild_sample(sample_sign, sample_magnitude) << 2;
+        sample.rawData.sampleData[n] = rebuilt_sample;
+        n++
+    }
+
+    printf("Done Decompression");
+
 }
 
 
@@ -332,6 +354,49 @@ int chord, step, codeword;
 
     // printf(codeword);
     return (__uint8_t) ~codeword;
+}
+
+// decode magnitude from the sign, chord and step bits in the codeword
+unsigned short decode_magnitude(char codeword) {
+    int chord = (codeword & 0x70) >> 4;
+    int step = codeword & 0x0F;
+    int msb = 1, lsb = 1;
+    int magnitude;
+    
+    if (chord == 0x7) {
+        magnitude = (lsb << 7) | (step << 8) | (msb << 12);
+    }
+    else if (chord == 0x6) {
+        magnitude = (lsb << 6) | (step << 7) | (msb << 11);
+    }
+    else if (chord == 0x5) {
+        magnitude = (lsb << 5) | (step << 6) | (msb << 10);
+    }
+    else if (chord == 0x4) {
+        magnitude = (lsb << 4) | (step << 5) | (msb << 9);
+    }
+    else if (chord == 0x3) {
+        magnitude = (lsb << 3) | (step << 4) | (msb << 8);
+    }
+    else if (chord == 0x2) {
+        magnitude = (lsb << 2) | (step << 3) | (msb << 7);
+    }
+    else if (chord == 0x1) {
+        magnitude = (lsb << 1) | (step << 2) | (msb << 6);
+    }
+    else if (chord == 0x0) {
+        magnitude = lsb | (step << 1) | (msb << 5);
+    }
+
+    return (unsigned short) magnitude;
+}
+
+short decode_sign(__uint8_t sample){
+    return sample & (1 << 7) ? 0 : 1;
+}
+
+short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
+    return (short) (sample_sign ? sample_magnitude : -sample_magnitude);
 }
 
 
