@@ -41,6 +41,7 @@ int main (int argc, char **argv) {
     printf("testing data compression methods\n\n\n\n\n");
 
     compress_data();
+    decompress_data();
 
     return 0;
 
