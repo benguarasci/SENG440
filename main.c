@@ -358,7 +358,7 @@ int chord, step, codeword;
 }
 
 // decode magnitude from the sign, chord and step bits in the codeword
-unsigned short decode_magnitude(char codeword) {
+unsigned short decode_magnitude(__uint8_t codeword) {
     int chord = (codeword & 0x70) >> 4;
     int step = codeword & 0x0F;
     int msb = 1, lsb = 1;
