@@ -198,10 +198,10 @@ void compress_data(){
             sample_sign = 0;
             magnitude = -a_sample + 33;
         }
-        // printf("linear to mu\n\n\n");
-        // LinearToMuLawSample(a_sample);
+        printf("linear to mu\n\n\n");
+        LinearToMuLawSample(a_sample);
         // printf("Mulaw\n\n\n");
-        mu_law(sample_sign, magnitude);
+        // mu_law(sample_sign, magnitude);
 
         n++;
 
