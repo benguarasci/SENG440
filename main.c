@@ -212,8 +212,8 @@ void compress_data(){
 decompress_data(){
     int n = 0;
     __uint8_t a_sample;
-    unsigned short sample_magnitude;
-    short sample_sign;
+    __uint8_t sample_magnitude;
+    __uint8_t sample_sign;
 
     while(n < numSamples){
         a_sample = ~compressedSample.compressedData.sampleData[n];
