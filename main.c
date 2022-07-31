@@ -211,15 +211,14 @@ void compress_data(){
 
 decompress_data(){
     int n = 0;
-    __uint8_t compressedSample;
+    __uint8_t a_sample;
     unsigned short sample_magnitude;
     short sample_sign;
 
     while(n < numSamples){
-        compressedSample = compressedSample.compressedData.sampleData[n];
-        compressedSample = ~compressedSample;
-        sample_sign = decode_sign(compressedSample);
-        sample_magnitude = decode_magnitude(compressedSample) - 33;
+        a_sample = ~compressedSample.compressedData.sampleData[n];
+        sample_sign = decode_sign(a_sample);
+        sample_magnitude = decode_magnitude(a_sample) - 33;
         short rebuilt_sample = rebuild_sample(sample_sign, sample_magnitude) << 2;
         sample.rawData.sampleData[n] = rebuilt_sample;
         n++;
