@@ -198,10 +198,10 @@ void compress_data(){
             sample_sign = 0;
             magnitude = -a_sample + 33;
         }
-        printf("linear to mu\n\n\n");
-        LinearToMuLawSample(a_sample);
-        // printf("Mulaw\n\n\n");
-        // mu_law(sample_sign, magnitude);
+        // printf("linear to mu\n\n\n");
+        // LinearToMuLawSample(a_sample);
+        printf("Mulaw\n\n\n");
+        mu_law(sample_sign, magnitude);
 
         n++;
 
@@ -337,7 +337,7 @@ int chord, step, codeword;
     // printf("final print\n");
 
     // printf(codeword);
-    return (__uint8_t) codeword;
+    return (__uint8_t) ~codeword;
 }
 
 
