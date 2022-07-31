@@ -358,38 +358,41 @@ int chord, step, codeword;
 }
 
 // decode magnitude from the sign, chord and step bits in the codeword
-unsigned short decode_magnitude(__uint8_t codeword) {
-    int chord = (codeword & 0x70) >> 4;
-    int step = codeword & 0x0F;
-    int msb = 1, lsb = 1;
-    int magnitude;
-    
-    if (chord == 0x7) {
-        magnitude = (lsb << 7) | (step << 8) | (msb << 12);
-    }
-    else if (chord == 0x6) {
-        magnitude = (lsb << 6) | (step << 7) | (msb << 11);
-    }
-    else if (chord == 0x5) {
-        magnitude = (lsb << 5) | (step << 6) | (msb << 10);
-    }
-    else if (chord == 0x4) {
-        magnitude = (lsb << 4) | (step << 5) | (msb << 9);
-    }
-    else if (chord == 0x3) {
-        magnitude = (lsb << 3) | (step << 4) | (msb << 8);
-    }
-    else if (chord == 0x2) {
-        magnitude = (lsb << 2) | (step << 3) | (msb << 7);
-    }
-    else if (chord == 0x1) {
-        magnitude = (lsb << 1) | (step << 2) | (msb << 6);
-    }
-    else if (chord == 0x0) {
-        magnitude = lsb | (step << 1) | (msb << 5);
-    }
+__uint16_t decode_magnitude (__uint8_t codeword) {
+	__uint8_t chord = (codeword >> 4) & 0x7;
+	// printf("Chord: %i\n", chord);
+	__uint8_t step = codeword & 0xF;
+	// printf("Step: %i\n", step);
+	__uint16_t res;
 
-    return (unsigned short) magnitude;
+	if (chord == 0x7) {
+		return (1 << 12) | (step << 8) | (1 << 7);
+	}
+	else if (chord == 0x6) {
+		return (1 << 11) | (step << 7) | (1 << 6);
+	}
+	else if (chord == 0x5) {
+		return (1 << 10) | (step << 6) | (1 << 5);
+	}
+	else if (chord == 0x4) {
+		return (1 << 9) | (step << 5) | (1 << 4);
+	}
+	else if (chord == 0x3) {
+		return (1 << 8) | (step << 4) | (1 << 3);
+	}
+	else if (chord == 0x2) {
+		return (1 << 7) | (step << 3) | (1 << 2);
+	}
+	else if (chord == 0x1) {
+		return (1 << 6) | (step << 2) | (1 << 1);
+	}
+	else if (chord == 0x0) {
+		return (1 << 5) | (step << 1) | 1;
+	}
+	else {
+		printf("Problem retrieving magnitude from codeword\n");
+		exit(1);
+	}
 }
 
 short decode_sign(__uint8_t sample){
