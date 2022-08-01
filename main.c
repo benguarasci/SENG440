@@ -419,6 +419,7 @@ void export(char filename[]){
     FILE *exporter = fopen(filename, "w");
     
     int n = 0;
+    char str[50];
     
     while(n<numSamples){
         sprintf(str, "\nSample %i:\t%d", i, compressedSample.compressedData.sampleData[n]);
