@@ -203,7 +203,7 @@ void compress_data(){
         compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, sample_magnitude);
         n++;
     }
-    printf("DONE\n")
+    printf("DONE\n");
 }
 
 
@@ -211,7 +211,7 @@ void compress_data(){
 
 void decompress_data(){
 
-    printf("Begin Decompression\n")
+    printf("Begin Decompression\n");
     int n = 0;
     __uint8_t a_sample;
     __uint8_t sample_magnitude;
