@@ -49,3 +49,4 @@ __uint8_t mu_law(int sign, int magnitude);
 __uint16_t decode_magnitude (__uint8_t codeword);
 short decode_sign(__uint8_t sample);
 short rebuild_sample(short sample_sign, unsigned short sample_magnitude);
+void export(char filename[])

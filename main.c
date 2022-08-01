@@ -23,6 +23,10 @@ double decompressionTime;
 
 
 int main (int argc, char **argv) {
+
+    char filename1[] = "compressedData.txt";
+    char filename2[] = "decompressedData.txt";
+
     if (argc < 2) {
         perror("\nPlease input a valid .wav file\n");
         return printf("\nPlease input a valid .wav file\n");
@@ -41,7 +45,9 @@ int main (int argc, char **argv) {
     printf("testing data compression methods\n\n\n\n\n");
 
     compress_data();
+    export(filename1);
     decompress_data();
+    export(filename2);
 
     return 0;
 
@@ -173,7 +179,7 @@ void readSample(){
 
 void compress_data(){
     printf("Begin audio compression\n");
-	printf("Allocate data for compressed samples\n");
+	// printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
     if (compressedSample.compressedData.sampleData == NULL) {
         printf("Could not allocate enough memory to store compressed data samples\n");
@@ -210,7 +216,6 @@ void compress_data(){
 //invert above logic
 
 void decompress_data(){
-
     printf("Begin Decompression\n");
     int n = 0;
     __uint8_t a_sample;
@@ -403,6 +408,25 @@ short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
     return (short) (sample_sign ? sample_magnitude : -sample_magnitude);
 }
 
+
+void export(char filename[]){
+    if(filename == "compressedSample.txt"){
+        printf("Exporting compressed data sample");
+    }else{
+        printf("Exporting decompressed data sample");
+    }
+
+    FILE *exporter = fopen(filename, "w");
+    
+    int n = 0;
+    
+    while(n<numSamples){
+        sprintf(str, "\nSample %i:\t%d", i, compressedSample.compressedData.sampleData[n]);
+        fwrite(str, 1, strlen(str), exporter);
+        }
+    fclose(exporter);
+    printf("Export Complete");
+}
 
 
 void printHeader() {
