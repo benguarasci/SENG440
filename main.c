@@ -422,7 +422,7 @@ void export(char filename[]){
     char str[50];
     
     while(n<numSamples){
-        sprintf(str, "\nSample %i:\t%d", i, compressedSample.compressedData.sampleData[n]);
+        sprintf(str, "\nSample %i:\t%d", n, compressedSample.compressedData.sampleData[n]);
         fwrite(str, 1, strlen(str), exporter);
         }
     fclose(exporter);
