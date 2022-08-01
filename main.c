@@ -49,6 +49,8 @@ int main (int argc, char **argv) {
     decompress_data();
     export(filename2);
 
+    fclose(input);
+
     return 0;
 
 }
@@ -424,6 +426,7 @@ void export(char filename[]){
     while(n<numSamples){
         sprintf(str, "\nSample %i:\t%d", n, compressedSample.compressedData.sampleData[n]);
         fwrite(str, 1, strlen(str), exporter);
+        n++;
         }
     fclose(exporter);
     printf("Export Complete");
