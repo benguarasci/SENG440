@@ -409,24 +409,24 @@ short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
 }
 
 
-// void export(char filename[]){
-//     if(filename == "compressedSample.txt"){
-//         printf("Exporting compressed data sample");
-//     }else{
-//         printf("Exporting decompressed data sample");
-//     }
+void export(char filename[]){
+    if(filename == "compressedSample.txt"){
+        printf("Exporting compressed data sample");
+    }else{
+        printf("Exporting decompressed data sample");
+    }
 
-//     FILE *exporter = fopen(filename, "w");
+    FILE *exporter = fopen(filename, "w");
     
-//     int n = 0;
+    int n = 0;
     
-//     while(n<numSamples){
-//         sprintf(str, "\nSample %i:\t%d", i, compressedSample.compressedData.sampleData[n]);
-//         fwrite(str, 1, strlen(str), exporter);
-//         }
-//     fclose(exporter);
-//     printf("Export Complete");
-// }
+    while(n<numSamples){
+        sprintf(str, "\nSample %i:\t%d", i, compressedSample.compressedData.sampleData[n]);
+        fwrite(str, 1, strlen(str), exporter);
+        }
+    fclose(exporter);
+    printf("Export Complete");
+}
 
 
 void printHeader() {
