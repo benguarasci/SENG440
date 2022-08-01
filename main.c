@@ -172,18 +172,17 @@ void readSample(){
 
 
 void compress_data(){
+    printf("Begin audio compression\n");
 	printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
     if (compressedSample.compressedData.sampleData == NULL) {
         printf("Could not allocate enough memory to store compressed data samples\n");
         return;
     }
-	printf("before init\n");
+
     int sample_magnitude;
     short a_sample;
     int sample_sign;
-    printf("after init\n");
-
     int n = 0;
     while(n < numSamples){
         // printf("start while\n");
@@ -204,12 +203,15 @@ void compress_data(){
         compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, sample_magnitude);
         n++;
     }
+    printf("DONE\n")
 }
 
 
 //invert above logic
 
 void decompress_data(){
+
+    printf("Begin Decompression\n")
     int n = 0;
     __uint8_t a_sample;
     __uint8_t sample_magnitude;
@@ -223,9 +225,7 @@ void decompress_data(){
         sample.rawData.sampleData[n] = rebuilt_sample;
         n++;
     }
-
-    printf("Done Decompression");
-
+    printf("DONE\n");
 }
 
 
