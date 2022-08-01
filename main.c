@@ -209,7 +209,7 @@ void compress_data(){
 
 //invert above logic
 
-decompress_data(){
+void decompress_data(){
     int n = 0;
     __uint8_t a_sample;
     __uint8_t sample_magnitude;
