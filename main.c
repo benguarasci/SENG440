@@ -226,7 +226,7 @@ void compress_data(){
 //invert above logic
 
 void decompress_data(){
-    printf("\nBegin audio expansion")
+    printf("\nBegin audio expansion");
     start = clock();
     int n = 0;
     __uint8_t a_sample;
