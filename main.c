@@ -241,7 +241,7 @@ void decompress_data(){
         sample.rawData.sampleData[n] = rebuilt_sample;
         n++;
     }
-    printf("\nDONE EXPANSION");
+    printf("\nDONE EXPANSION\n");
 }
 
 
@@ -423,9 +423,9 @@ short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
 
 void export(char filename[]){
     if(strcmp(filename, "compressedData.txt")){
-        printf("\nExporting compressed data sample");
-    }else{
         printf("\nExporting decompressed data sample");
+    }else{
+        printf("\nExporting compressed data sample");
     }
 
     FILE *exporter = fopen(filename, "w");
