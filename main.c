@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "main.h"
 #include <time.h>
+#include "main.h"
 
 
 
@@ -42,9 +42,9 @@ int main (int argc, char **argv) {
     readSample();
     printHeader();
 
-    printf("testing data compression methods\n\n\n\n\n");
-
+    start = clock();
     compress_data();
+
     export(filename1);
     decompress_data();
     export(filename2);
@@ -109,8 +109,6 @@ void readSample(){
     fread(littleBuffer, sizeof(littleBuffer), 1, input);
     sample.header.bits_per_sample = ((littleBuffer[0]) | (littleBuffer[1] << 8)); //converting to big endian
     //printf("\n(35-36): bits_per_sample\t%u\n", sample.header.bits_per_sample);
-
-
 
 
     printf("DATA INFO:\n");
@@ -181,6 +179,7 @@ void readSample(){
 
 void compress_data(){
     printf("Begin audio compression\n");
+    start = clock();
 	// printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
     if (compressedSample.compressedData.sampleData == NULL) {
@@ -212,12 +211,16 @@ void compress_data(){
         n++;
     }
     printf("DONE\n");
+    stop = clock();
+    compressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
+    printf("\ncompressed data in %f seconds ", compressionTime);
 }
 
 
 //invert above logic
 
 void decompress_data(){
+    start = clock();
     printf("Begin Decompression\n");
     int n = 0;
     __uint8_t a_sample;
@@ -233,6 +236,9 @@ void decompress_data(){
         n++;
     }
     printf("DONE\n");
+    stop = clock();
+    decompressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
+    printf("decompressed data in %f seconds \n", decompressionTime);
 }
 
 
@@ -305,7 +311,6 @@ unsigned char LinearToMuLawSample(short sample)
      return (unsigned char)compressedByte;
 
 }
-
 
 
 
@@ -434,31 +439,23 @@ void export(char filename[]){
 
 
 void printHeader() {
-    printf("Display Wave Headers:\t\t...\n");
-
-    fwrite("(01-04): chunk_id\t\t", 1, 19, stdout);
+    printf("\n*-------------------------Headers-------------------------*");
+    fwrite("\nchunk_id:  ", 1, 19, stdout);
     fwrite(sample.header.chunk_id, sizeof(sample.header.chunk_id), 1, stdout);
-
-    printf("\n(05-08): chunk_size\t\t%u", sample.header.chunk_size);
-
-    fwrite("\n(09-12): chunk_type\t\t", 1, 21, stdout);
+    printf("\nchunk_size:  %u", sample.header.chunk_size);
+    fwrite("\nchunk_type:  ", 1, 21, stdout);
     fwrite(sample.header.chunk_type, sizeof(sample.header.chunk_type), 1, stdout);
-
-    fwrite("\n(13-16): format\t\t", 1, 25, stdout);
+    fwrite("format:  ", 1, 25, stdout);
     fwrite(sample.header.format, sizeof(sample.header.format), 1, stdout);
-    
-    printf("\n(17-20): subchunk1_size\t\t%u", sample.header.subchunk1_size);
-    printf("\n(21-22): audio_format\t\t%u", sample.header.audio_format);
-    printf("\n(23-24): num_channels\t\t%u", sample.header.num_channels);
-    printf("\n(25-28): sample_rate\t%u", sample.header.sample_rate);
-    printf("\n(29-32): byte_rate\t%u", sample.header.byte_rate);
-    printf("\n(33-34): block_align\t\t%u", sample.header.block_align);
-    printf("\n(35-36): bits_per_sample\t%u", sample.header.bits_per_sample);
-
-    fwrite("\n(37-40): subchunk2_id\t\t", 1, 25, stdout);
+    printf("\nsubchunk1_size:  %u", sample.header.subchunk1_size);
+    printf("\naudio_format:  %u", sample.header.audio_format);
+    printf("\nnum_channels:  %u", sample.header.num_channels);
+    printf("\nsample_rate:  %u", sample.header.sample_rate);
+    printf("\nbyte_rate:  %u", sample.header.byte_rate);
+    printf("\nblock_align:  %u", sample.header.block_align);
+    printf("\nbits_per_sample:  %u", sample.header.bits_per_sample);
+    fwrite("\nsubchunk2_id:  ", 1, 25, stdout);
     fwrite(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, stdout);
-
-    printf("\n(41-44): subchunk2_size\t\t%u", sample.rawData.subchunk2_size);
-
-    printf("\n...\nDisplaying Wave Headers:\tCOMPLETE\n\n");
+    printf("\nsubchunk2_size:  %u", sample.rawData.subchunk2_size);
+       printf("\n*-------------------------DONE-------------------------*");
 }
