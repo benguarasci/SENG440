@@ -41,15 +41,19 @@ int main (int argc, char **argv) {
     printHeader();
 
     start = clock();
+    printf("\nstart: %f\n", start);
     compress_data();
     stop = clock();
+    printf("\nstop: %f\n", stop);
     compressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
     printf("compressed data in %f seconds", compressionTime);
     export(filename1);
 
     start = clock();
+    printf("\nstart: %f\n", start);
     decompress_data();
     stop = clock();
+    printf("\nstop: %f\n", stop);
     decompressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
     printf("decompressed data in %f seconds", decompressionTime);
 
@@ -60,7 +64,6 @@ int main (int argc, char **argv) {
     return 0;
 
 }
-
 
 void readSample(){
     printf("HEADERS:\n");
@@ -462,5 +465,5 @@ void printHeader() {
     fwrite("\nsubchunk2_id:  ", 1, 25, stdout);
     fwrite(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, stdout);
     printf("\nsubchunk2_size:  %u", sample.rawData.subchunk2_size);
-       printf("\n*-------------------------DONE-------------------------*\n");
+    printf("\n*--------------------------DONE--------------------------*\n");
 }
