@@ -424,9 +424,9 @@ short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
 
 void export(char filename[]){
     if(filename == "compressedSample.txt"){
-        printf("Exporting compressed data sample");
+        printf("\nExporting compressed data sample");
     }else{
-        printf("Exporting decompressed data sample");
+        printf("\nExporting decompressed data sample");
     }
 
     FILE *exporter = fopen(filename, "w");
@@ -440,7 +440,7 @@ void export(char filename[]){
         n++;
         }
     fclose(exporter);
-    printf("Export Complete");
+    printf("\nExport Complete");
 }
 
 
