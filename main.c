@@ -232,7 +232,6 @@ void compress_data(){
 
 void decompress_data(){
     printf("\nBegin audio expansion");
-    start = clock();
     int n = 0;
     __uint8_t a_sample;
     __uint8_t sample_magnitude;
