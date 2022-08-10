@@ -32,8 +32,6 @@ int main (int argc, char **argv) {
         return printf("\nPlease input a valid .wav file\n");
     }
 
-    printf("\nInput Wave Filename:\t\t%s\n", argv[1]);
-
     input = fopen(argv[1], "rb");  //read in binary mode
     if (input == NULL) {
         printf("Error opening file %s", argv[1]);
@@ -186,7 +184,7 @@ void readSample(){
 
 
 void compress_data(){
-    printf("\nBegin audio compression\n");
+    printf("\nBegin audio compression");
     // start = clock();
 	// printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
@@ -218,7 +216,7 @@ void compress_data(){
         compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, sample_magnitude);
         n++;
     }
-    printf("\nDONE\n");
+    printf("\nDONE COMPRESSION\n");
     // stop = clock();
     // compressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
     // printf("\ncompressed data in %f seconds ", compressionTime);
@@ -423,7 +421,7 @@ short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
 
 
 void export(char filename[]){
-    if(filename == "compressedSample.txt"){
+    if(filename == "compressedData.txt"){
         printf("\nExporting compressed data sample");
     }else{
         printf("\nExporting decompressed data sample");
