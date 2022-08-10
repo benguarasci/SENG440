@@ -421,7 +421,7 @@ short rebuild_sample(short sample_sign, unsigned short sample_magnitude){
 
 
 void export(char filename[]){
-    if(filename == "compressedData.txt"){
+    if(strcmp(filename, "compressedData.txt")){
         printf("\nExporting compressed data sample");
     }else{
         printf("\nExporting decompressed data sample");
