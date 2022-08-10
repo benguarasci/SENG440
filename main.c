@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 #include "main.h"
 
 
@@ -11,13 +11,15 @@ unsigned char bigBuffer[4];
 unsigned char littleBuffer[2];
 
 
+
 struct WAVE_FILE sample;
 struct COMPRESSED_WAVE_FILE compressedSample;
 
 unsigned long numSamples;
 unsigned int sampleSize;
 
-time_t start, stop;
+struct timeval start, stop;
+
 double compressionTime;
 double decompressionTime;
 
@@ -40,21 +42,21 @@ int main (int argc, char **argv) {
     readSample();
     printHeader();
 
-    start = clock();
+    gettimeofday(&start, NULL);
     printf("\nstart: %f\n", start);
     compress_data();
-    stop = clock();
+    gettimeofday(&stop, NULL);
     printf("\nstop: %f\n", stop);
-    compressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
+    compressionTime = ((stop.tv_sec - start.tv_sec) * 1000000) + (stop.tv_usec - start.tv_usec);
     printf("compressed data in %f seconds", compressionTime);
     export(filename1);
 
-    start = clock();
+    gettimeofday(&start, NULL);
     printf("\nstart: %f\n", start);
     decompress_data();
-    stop = clock();
+    gettimeofday(&stop, NULL);
     printf("\nstop: %f\n", stop);
-    decompressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
+    decompressionTime = ((stop.tv_sec - start.tv_sec) * 1000000) + (stop.tv_usec - start.tv_usec);
     printf("decompressed data in %f seconds", decompressionTime);
 
     export(filename2);
