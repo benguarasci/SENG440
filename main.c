@@ -42,11 +42,19 @@ int main (int argc, char **argv) {
     readSample();
     printHeader();
 
-    // start = clock();
+    start = clock();
     compress_data();
-
+    stop = clock();
+    compressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
+    printf("\ncompressed data in %f seconds ", compressionTime);
     export(filename1);
+
+    start = clock();
     decompress_data();
+    stop = clock();
+    decompressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
+    printf("decompressed data in %f seconds \n", decompressionTime);
+
     export(filename2);
 
     fclose(input);
@@ -179,7 +187,7 @@ void readSample(){
 
 void compress_data(){
     printf("Begin audio compression\n");
-    start = clock();
+    // start = clock();
 	// printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
     if (compressedSample.compressedData.sampleData == NULL) {
@@ -211,9 +219,9 @@ void compress_data(){
         n++;
     }
     printf("DONE\n");
-    stop = clock();
-    compressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
-    printf("\ncompressed data in %f seconds ", compressionTime);
+    // stop = clock();
+    // compressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
+    // printf("\ncompressed data in %f seconds ", compressionTime);
 }
 
 
