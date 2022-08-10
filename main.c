@@ -47,7 +47,7 @@ int main (int argc, char **argv) {
     compress_data();
     gettimeofday(&stop, NULL);
     printf("\nstop: %f\n", stop);
-    compressionTime = ((stop.tv_sec - start.tv_sec) * 1000000) + (stop.tv_usec - start.tv_usec);
+    compressionTime = ((stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec));
     printf("compressed data in %f seconds", compressionTime);
     export(filename1);
 
@@ -56,7 +56,7 @@ int main (int argc, char **argv) {
     decompress_data();
     gettimeofday(&stop, NULL);
     printf("\nstop: %f\n", stop);
-    decompressionTime = ((stop.tv_sec - start.tv_sec) * 1000000) + (stop.tv_usec - start.tv_usec);
+    decompressionTime = ((stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec));
     printf("decompressed data in %f seconds", decompressionTime);
 
     export(filename2);
