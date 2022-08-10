@@ -44,14 +44,14 @@ int main (int argc, char **argv) {
     compress_data();
     stop = clock();
     compressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
-    printf("compressed data in %f seconds\n", compressionTime);
+    printf("compressed data in %f seconds", compressionTime);
     export(filename1);
 
     start = clock();
     decompress_data();
     stop = clock();
     decompressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
-    printf("decompressed data in %f seconds \n", decompressionTime);
+    printf("decompressed data in %f seconds", decompressionTime);
 
     export(filename2);
 
@@ -144,7 +144,7 @@ void readSample(){
     //printf("\n(37-40): subchunk2_size\t\t%u\n", sample.rawData.subchunk2_size);
 
 
-    printf("\nDONE\n");
+    printf("\nDONE1\n");
 
     printf("BEGIN READING SAMPLE DATA\n");
 
@@ -175,7 +175,7 @@ void readSample(){
             n++;
         }
 
-        printf("\nDONE\n");
+        printf("\nDONE2\n");
     } else{
         printf("Invalid Input\n");
     }
@@ -240,7 +240,7 @@ void decompress_data(){
         sample.rawData.sampleData[n] = rebuilt_sample;
         n++;
     }
-    printf("\nDONE\n");
+    printf("\nDONE3\n");
 }
 
 
