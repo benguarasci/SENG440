@@ -226,6 +226,7 @@ void compress_data(){
 //invert above logic
 
 void decompress_data(){
+    printf("\nBegin audio expansion")
     start = clock();
     int n = 0;
     __uint8_t a_sample;
@@ -240,7 +241,7 @@ void decompress_data(){
         sample.rawData.sampleData[n] = rebuilt_sample;
         n++;
     }
-    printf("\nDONE3\n");
+    printf("\nDONE EXPANSION");
 }
 
 
@@ -438,7 +439,7 @@ void export(char filename[]){
         n++;
         }
     fclose(exporter);
-    printf("\nExport Complete");
+    printf("\nExport Complete\n");
 }
 
 
