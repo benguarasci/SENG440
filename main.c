@@ -46,7 +46,7 @@ int main (int argc, char **argv) {
     compress_data();
     stop = clock();
     compressionTime = (double) (stop - start) / CLOCKS_PER_SEC;
-    printf("\ncompressed data in %f seconds ", compressionTime);
+    printf("compressed data in %f seconds\n", compressionTime);
     export(filename1);
 
     start = clock();
@@ -229,7 +229,6 @@ void compress_data(){
 
 void decompress_data(){
     start = clock();
-    printf("Begin Decompression\n");
     int n = 0;
     __uint8_t a_sample;
     __uint8_t sample_magnitude;
@@ -244,9 +243,6 @@ void decompress_data(){
         n++;
     }
     printf("DONE\n");
-    stop = clock();
-    decompressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
-    printf("decompressed data in %f seconds \n", decompressionTime);
 }
 
 
@@ -322,55 +318,58 @@ unsigned char LinearToMuLawSample(short sample)
 
 
 
-__uint8_t mu_law(int sign, int magnitude){
+__uint8_t mu_law(int sample_sign, int sample_magnitude){
     // printf("start mulaw\n");
-int chord, step, codeword;
-    if (magnitude & (1 << 12)) {
-        chord = 0x7;
-        step = (magnitude >> 8) & 0xF;
+    int chord;
+    int step;
+    int codeword;
+
+    if (sample_magnitude & (1 << 5)) {
+        chord = 0x0;
+        step = (sample_magnitude >> 1) & 0xF;
         // printf("if 1\n");
     } 
-    else if (magnitude & (1 << 11)) {
-        chord = 0x6;
-        step = (magnitude >> 7) & 0xF;
+    else if (sample_magnitude & (1 << 6)) {
+        chord = 0x1;
+        step = (sample_magnitude >> 2) & 0xF;
         // printf("if 2\n");
     } 
-    else if (magnitude & (1 << 10)) {
-        chord = 0x5;
-        step = (magnitude >> 6) & 0xF;
+    else if (sample_magnitude & (1 << 7)) {
+        chord = 0x2;
+        step = (sample_magnitude >> 3) & 0xF;
         // printf("if 3\n");
     } 
-    else if (magnitude & (1 << 9)) {
-        chord = 0x4;
-        step = (magnitude >> 5) & 0xF;
+    else if (sample_magnitude & (1 << 8)) {
+        chord = 0x3;
+        step = (sample_magnitude >> 4) & 0xF;
         // printf("if 4\n");
     } 
-    else if (magnitude & (1 << 8)) {
-        chord = 0x3;
-        step = (magnitude >> 4) & 0xF;
+    else if (sample_magnitude & (1 << 9)) {
+        chord = 0x4;
+        step = (sample_magnitude >> 5) & 0xF;
         // printf("if 5\n");
     } 
-    else if (magnitude & (1 << 7)) {
-        chord = 0x2;
-        step = (magnitude >> 3) & 0xF;
+    else if (sample_magnitude & (1 << 10)) {
+        chord = 0x5;
+        step = (sample_magnitude >> 6) & 0xF;
         // printf("if 6\n");
     } 
-    else if (magnitude & (1 << 6)) {
-        chord = 0x1;
-        step = (magnitude >> 2) & 0xF;
+    else if (sample_magnitude & (1 << 11)) {
+        chord = 0x6;
+        step = (sample_magnitude >> 7) & 0xF;
         // printf("if 7\n");
     } 
-    else if (magnitude & (1 << 5)) {
-        chord = 0x0;
-        step = (magnitude >> 1) & 0xF;
+    else if (sample_magnitude & (1 << 12)) {
+        chord = 0x7;
+        step = (sample_magnitude >> 8) & 0xF;
         // printf("if 8\n");
     } 
     else {
         chord = 0x0;
-        step = magnitude;
+        step = sample_magnitude;
         // printf("else\n");
     }
-    codeword = (sign << 7) | (chord << 4) | step;
+    codeword = (sample_sign << 7) | (chord << 4) | step;
     // printf("final print\n");
 
     // printf(codeword);
@@ -382,32 +381,31 @@ __uint16_t decode_magnitude (__uint8_t codeword) {
 	__uint8_t chord = (codeword >> 4) & 0x7;
 	// printf("Chord: %i\n", chord);
 	__uint8_t step = codeword & 0xF;
-	// printf("Step: %i\n", step);
-	__uint16_t res;
 
-	if (chord == 0x7) {
-		return (1 << 12) | (step << 8) | (1 << 7);
-	}
-	else if (chord == 0x6) {
-		return (1 << 11) | (step << 7) | (1 << 6);
-	}
-	else if (chord == 0x5) {
-		return (1 << 10) | (step << 6) | (1 << 5);
-	}
-	else if (chord == 0x4) {
-		return (1 << 9) | (step << 5) | (1 << 4);
-	}
-	else if (chord == 0x3) {
-		return (1 << 8) | (step << 4) | (1 << 3);
-	}
-	else if (chord == 0x2) {
-		return (1 << 7) | (step << 3) | (1 << 2);
+
+	if (chord == 0x0) {
+		return (1 << 5) | (step << 1) | 1;
 	}
 	else if (chord == 0x1) {
 		return (1 << 6) | (step << 2) | (1 << 1);
 	}
-	else if (chord == 0x0) {
-		return (1 << 5) | (step << 1) | 1;
+	else if (chord == 0x2) {
+		return (1 << 7) | (step << 3) | (1 << 2);
+	}
+	else if (chord == 0x3) {
+		return (1 << 8) | (step << 4) | (1 << 3);
+	}
+	else if (chord == 0x4) {
+		return (1 << 9) | (step << 5) | (1 << 4);
+	}
+	else if (chord == 0x5) {
+		return (1 << 10) | (step << 6) | (1 << 5);
+	}
+	else if (chord == 0x6) {
+		return (1 << 11) | (step << 7) | (1 << 6);
+	}
+	else if (chord == 0x7) {
+		return (1 << 12) | (step << 8) | (1 << 7);
 	}
 	else {
 		printf("Problem retrieving magnitude from codeword\n");
