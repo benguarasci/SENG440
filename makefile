@@ -1,7 +1,7 @@
 mu:
 	clear
 	gcc main.c -o main.o -std=c99
-	./main.o Voice001.wav
+	./main.o bensvoice.wav
 test:
 	clear
 	gcc test.c -o test.o
@@ -9,7 +9,7 @@ test:
 testv:
 	clear
 	gcc test.c -o test.o
-	./test.o Voice001.wav
+	./test.o bensvoice.wav
 
 clean:
 	rm main.o
@@ -17,4 +17,4 @@ clean:
 opt:
 	clear
 	gcc main_opt.c -o main_opt.o
-	./main_opt.o Voice001.wav
+	./main_opt.o bensvoice.wav
