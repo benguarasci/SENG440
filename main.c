@@ -146,7 +146,7 @@ void readSample(){
     //printf("\n(37-40): subchunk2_size\t\t%u\n", sample.rawData.subchunk2_size);
 
 
-    printf("DONE\n");
+    printf("\nDONE\n");
 
     printf("BEGIN READING SAMPLE DATA\n");
 
@@ -177,7 +177,7 @@ void readSample(){
             n++;
         }
 
-        printf("DONE!\n");
+        printf("\nDONE\n");
     } else{
         printf("Invalid Input\n");
     }
@@ -218,7 +218,7 @@ void compress_data(){
         compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, sample_magnitude);
         n++;
     }
-    printf("DONE\n");
+    printf("\nDONE\n");
     // stop = clock();
     // compressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
     // printf("\ncompressed data in %f seconds ", compressionTime);
@@ -242,7 +242,7 @@ void decompress_data(){
         sample.rawData.sampleData[n] = rebuilt_sample;
         n++;
     }
-    printf("DONE\n");
+    printf("\nDONE\n");
 }
 
 
