@@ -43,21 +43,17 @@ int main (int argc, char **argv) {
     printHeader();
 
     gettimeofday(&start, NULL);
-    printf("\nstart: %f\n", start);
     compress_data();
     gettimeofday(&stop, NULL);
-    printf("\nstop: %f\n", stop);
     compressionTime = ((stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec));
-    printf("compressed data in %f seconds", compressionTime);
+    printf("compressed data in %f microseconds", compressionTime);
     export(filename1);
 
     gettimeofday(&start, NULL);
-    printf("\nstart: %f\n", start);
     decompress_data();
     gettimeofday(&stop, NULL);
-    printf("\nstop: %f\n", stop);
     decompressionTime = ((stop.tv_sec - start.tv_sec) + (stop.tv_usec - start.tv_usec));
-    printf("decompressed data in %f seconds", decompressionTime);
+    printf("decompressed data in %f microseconds", decompressionTime);
 
     export(filename2);
 
@@ -184,14 +180,11 @@ void readSample(){
     } else{
         printf("Invalid Input\n");
     }
-
 }
 
 
 void compress_data(){
     printf("\nBegin audio compression");
-    // start = clock();
-	// printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
     if (compressedSample.compressedData.sampleData == NULL) {
         printf("Could not allocate enough memory to store compressed data samples\n");
@@ -203,28 +196,18 @@ void compress_data(){
     int sample_sign;
     int n = 0;
     while(n < numSamples){
-        // printf("start while\n");
         a_sample = (sample.rawData.sampleData[n] >> 2);
-        // printf("init a_sample\n");
         if (a_sample >= 0){
-            //positive
             sample_sign = 1;
             sample_magnitude = a_sample + 33;
         }else{
-            //negative
             sample_sign = 0;
             sample_magnitude = -a_sample + 33;
         }
-        // printf("linear to mu\n\n\n");
-        // LinearToMuLawSample(a_sample);
-        // printf("Mulaw\n\n\n");
         compressedSample.compressedData.sampleData[n]=mu_law(sample_sign, sample_magnitude);
         n++;
     }
     printf("\nDONE COMPRESSION\n");
-    // stop = clock();
-    // compressionTime = (double) (stop - start) /CLOCKS_PER_SEC;
-    // printf("\ncompressed data in %f seconds ", compressionTime);
 }
 
 
@@ -292,7 +275,6 @@ static char MuLawCompressTable[256] =
 };
 
 unsigned char LinearToMuLawSample(short sample)
-
 {
 
      int sign = (sample >> 8) & 0x80;
@@ -318,8 +300,6 @@ unsigned char LinearToMuLawSample(short sample)
      return (unsigned char)compressedByte;
 
 }
-
-
 
 __uint8_t mu_law(int sample_sign, int sample_magnitude){
     // printf("start mulaw\n");
