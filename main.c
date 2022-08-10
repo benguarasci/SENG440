@@ -42,7 +42,7 @@ int main (int argc, char **argv) {
     readSample();
     printHeader();
 
-    start = clock();
+    // start = clock();
     compress_data();
 
     export(filename1);
