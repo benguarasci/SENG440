@@ -42,6 +42,8 @@ struct COMPRESSED_WAVE_FILE {
 
 void printHeader();
 void readSample();
+void compress_data();
+void decompress_data();
 
 
 unsigned char LinearToMuLawSample(short sample);
