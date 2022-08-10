@@ -186,7 +186,7 @@ void readSample(){
 
 
 void compress_data(){
-    printf("Begin audio compression\n");
+    printf("\nBegin audio compression\n");
     // start = clock();
 	// printf("Allocate data for compressed samples\n");
 	compressedSample.compressedData.sampleData = calloc(numSamples, sizeof(char)); //will only be 2 bytes after mu compression
@@ -463,5 +463,5 @@ void printHeader() {
     fwrite("\nsubchunk2_id:  ", 1, 25, stdout);
     fwrite(sample.rawData.subchunk2_id, sizeof(sample.rawData.subchunk2_id), 1, stdout);
     printf("\nsubchunk2_size:  %u", sample.rawData.subchunk2_size);
-       printf("\n*-------------------------DONE-------------------------*");
+       printf("\n*-------------------------DONE-------------------------*\n");
 }
